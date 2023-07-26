@@ -1,0 +1,94 @@
+<div class="container">
+  <div [hidden]="submitted">
+    <h1>Add a new Transaction</h1>
+    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+      <!-- Brief Description -->
+      <div class="form-group">
+        <label for="desc">Brief Description</label>
+        <textarea class="form-control" id="desc" required formControlName="desc"></textarea>
+      </div>
+
+      <!-- Amount -->
+      <div class="form-group">
+        <label for="amount">Amount</label>
+        <input type="number" class="form-control" id="amount" required formControlName="amount" min="0.01" />
+      </div>
+
+      <!-- Tag for the transaction -->
+      <div class="form-group">
+        <label for="tag">Tag for the transaction</label>
+        <select class="form-control" id="tag" required formControlName="tag">
+          <option *ngFor="let x of tags" [value]="x">{{ x }}</option>
+        </select>
+      </div>
+
+      <!-- Paid By -->
+      <div class="form-group">
+        <label for="paidBy">Paid By</label>
+        <select class="form-control" id="paidBy" required formControlName="paidBy">
+          <option *ngFor="let friend of all_friends" [value]="friend.id">{{ friend.name }}</option>
+        </select>
+      </div>
+
+      <!-- Distribution Method -->
+      <div class="form-group">
+        <label for="distributionMethod">Distribution Method</label>
+        <select class="form-control" id="distributionMethod" required formControlName="distributionMethod" (change)="onDistributionMethodChange()">
+          <option value="equal">Equal</option>
+          <option value="percentage">Percentage</option>
+          <option value="portions">Portions</option>
+        </select>
+      </div>
+
+      <!-- Share With -->
+      <div class="form-group">
+        <label>Share With</label>
+        <div formArrayName="shareWith">
+          <div *ngFor="let friend of all_friends">
+            <div class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                [value]="friend.id"
+                [formControl]="getFriendShareWithControl(friend.id)"
+                (change)="calculatePercentageDistribution()"
+              />
+              <label class="form-check-label">{{ friend.name }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Distribution Input -->
+      <div formArrayName="distribution">
+        <div *ngFor="let friend of all_friends">
+          <div *ngIf="transactionForm.get('distributionMethod')?.value === 'percentage'">
+            <div class="form-group">
+              <label for="percentage">{{ friend.name }} (Percentage)</label>
+              <input type="number" class="form-control" [formControl]="getFriendPercentageControl(friend.id)" />
+              <div *ngIf="getFriendPercentageControl(friend.id)?.errors?.['required']">Percentage is required.</div>
+              <div *ngIf="getFriendPercentageControl(friend.id)?.errors?.['min'] || getFriendPercentageControl(friend.id)?.errors?.['max']">Percentage must be between 0 and 100.</div>
+            </div>
+          </div>
+          <div *ngIf="transactionForm.get('distributionMethod')?.value === 'portions'">
+            <div class="form-group">
+              <label for="portions">{{ friend.name }} (Portions)</label>
+              <input type="number" class="form-control" [formControl]="getFriendPortionControl(friend.id)" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Display the distributed amount based on the selected distribution method -->
+      <div *ngIf="transactionForm.get('distributionMethod')?.value === 'equal' || transactionForm.get('distributionMethod')?.value === 'percentage' || transactionForm.get('distributionMethod')?.value === 'portions'">
+        <ng-container *ngFor="let friend of all_friends">
+          <p *ngIf="friend.id === user_id">User: {{ getDistributedAmountForUser() | currency }}</p>
+          <p *ngIf="friend.id !== user_id">{{ friend.name }}: {{ getDistributedAmountForFriend(friend.id) | currency }}</p>
+        </ng-container>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-success" [disabled]="!transactionForm.valid">Add Transaction</button>
+    </form>
+  </div>
+</div>

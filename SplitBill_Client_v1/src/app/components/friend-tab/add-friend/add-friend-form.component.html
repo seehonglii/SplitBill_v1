@@ -1,0 +1,26 @@
+<div class="example-container">
+  <div [hidden]="submitted">
+    <h1>Add Friend</h1>
+    <form class="example-form" (ngSubmit)="onSubmit()" #friendForm="ngForm">
+      <div class="example-container">
+        <div class="form-group">
+
+          <mat-form-field>
+            <mat-label>Enter friend's email</mat-label>
+            <input matInput placeholder="pat@example.com" type="email" class="form-control" id="friend_email"
+            required
+            [(ngModel)]="model.friend_email" name="friend_email"
+            #email="ngModel">
+          </mat-form-field>
+
+        </div>
+      </div>
+      <div class="example-button-container">
+        <button type="submit" class="btn btn-success" [disabled]="friendForm.invalid">Add Friend</button>
+        <button type="button" (click)="returnToMainPage()">Return to main page</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+

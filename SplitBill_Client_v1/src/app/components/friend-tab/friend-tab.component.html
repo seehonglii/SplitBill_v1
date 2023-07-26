@@ -1,0 +1,48 @@
+<div>
+  <!-- Add Friend button and list of friends -->
+  <div class="header">
+    <a routerLink="/addfriend" class="button">Add Friend</a>
+    <div class="friend-list-container" *ngIf="friend$ | async as friends; else noFriend">
+      <ul class="friend-list">
+        <li *ngFor="let friend of friends">{{ extractNameFromEmail(friend.friend_email) }}</li>
+      </ul>
+    </div>
+  </div>
+  <br>
+
+  <!-- Table to display friend balances -->
+  <div *ngIf="aggregatedBalances.length > 0">
+    <!-- Table to display friend balances -->
+    <table class="balances-table">
+      <thead>
+        <tr>
+          <th>Friend</th>
+          <!-- <th>Group Name</th> -->
+          <th>Total Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let balance of aggregatedBalances">
+          <tr>
+            <td>{{ balance.member }}</td>
+            <!-- <td>{{ getGroupName(balance.groupId) }}</td> Use getGroupName method to display the proper group name -->
+            <td [ngClass]="{ 'positive-balance': balance.totalBalance > 0, 'negative-balance': balance.totalBalance < 0 }">
+              {{ balance.totalBalance > 0 ? balance.totalBalance : '(' + (-balance.totalBalance) + ')' }}
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="aggregatedBalances.length === 0" class="no-balances">
+    No friend balances found.
+  </div>
+</div>
+
+<div *ngIf="aggregatedBalances.length === 0" class="no-balances">
+  No friend balances found.
+</div>
+
+<ng-template #noFriend>
+  <div>No friend found</div>
+</ng-template>

@@ -1,0 +1,49 @@
+<div class="content">
+  <table>
+    <h2>Group Name: {{ lastClickedGroupName }}</h2>
+    <tr class="group-member-row">
+      <td>Sharing with: </td>
+    </tr>
+    <tr *ngFor="let member of lastClickedGroupMembers">
+      <td>{{ getUsernameFromEmail(member.friends[0]) }}</td>
+    </tr>
+    <tr>
+      <td>
+        <a routerLink="/member" class="button">Add new member</a>
+      </td>
+    </tr>
+    <br>
+    <tr>
+      <th>
+        <button class="button" [routerLink]="['/settleup', group_id]">Settle Up</button>
+      </th>
+      <th>
+        <button class="button" [routerLink]="['/group', group_id, 'transaction']">Add Transaction</button>
+      </th>
+      <th>
+        <button class="button" (click)="onClick(group)">View Transactions</button>
+        <!-- <button class="button" (click)="leave(group_id)">Leave group</button> -->
+      </th>
+    </tr>
+    <br>
+    <tr>
+      <th colspan="5">List of Transactions</th>
+    </tr>
+    <tr>
+      <th>Lender</th>
+      <th>Borrower</th>
+      <th>Amount</th>
+      <th>Description</th>
+      <th>Tag</th>
+    </tr>
+    <ng-container *ngFor="let trans of transactions">
+      <tr>
+        <td>{{ trans.lender }}</td>
+        <td>{{ trans.borrower }}</td>
+        <td>{{ value(trans.amount) }}</td>
+        <td>{{ trans.description }}</td>
+        <td>{{ trans.tag }}</td>
+      </tr>
+    </ng-container>
+  </table>
+</div>

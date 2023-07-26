@@ -1,0 +1,23 @@
+<div>
+  <h2>Settle Up</h2>
+  <p>{{ group_name }}</p>
+
+  <div *ngIf="balanceSummary.length > 0; else noBalances">
+    <h3>Outstanding Balances:</h3>
+    <ul>
+      <li *ngFor="let balance of balanceSummary">
+        <div *ngIf="balance.balance < 0">
+          {{ balance.member.split('@')[0] }} owes {{ balance.balance < 0 ? (-balance.amountOwe) : balance.amountOwe }}
+          to {{ getMemberWithPositiveBalance(balance.group_id).split('@')[0] }}
+          <button (click)="settleUp(balance.member)">Settle Up</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #noBalances>
+    <p>No outstanding balances for this group.</p>
+  </ng-template>
+
+  <button (click)="returnToGroupTab()">Back to Group</button>
+</div>

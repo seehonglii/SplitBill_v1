@@ -1,0 +1,19 @@
+<div class="container">
+  <h1>Add Member</h1>
+  <form [formGroup]="form" (ngSubmit)="submitForm()">
+    <div class="grid-container">
+      <mat-selection-list formControlName="groupmember" #members>
+        <!-- Use the async pipe to iterate over allFriends -->
+        <mat-list-option *ngFor="let member of allFriends | async" [value]="member" [disabled]="isMemberAlreadyInGroup(member)">
+          {{ member.split('@')[0] }} <!-- Display only the name before the "@" symbol -->
+        </mat-list-option>
+      </mat-selection-list>
+
+      <p>
+        Options selected: {{ members.selectedOptions.selected.length }}
+      </p>
+
+      <button mat-raised-button color="primary" type="submit">Create Group</button>
+    </div>
+  </form>
+</div>

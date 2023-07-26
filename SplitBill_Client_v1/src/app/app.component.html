@@ -1,0 +1,52 @@
+<div class="content-outer-container">
+  <div class="content-inner-container">
+    <p>
+      <mat-toolbar color="primary">
+        <button mat-icon-button class="home-icon" aria-label="Home icon-button with menu icon" *ngIf="isAuthenticated" routerLink="/dashboard" title="Home">
+          <mat-icon>home</mat-icon>
+        </button>
+        <button mat-icon-button class="home-icon" aria-label="Home icon-button with menu icon" *ngIf="!isAuthenticated" routerLink="['']" title="User Login">
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <span>Trip Splitwise</span>
+
+        <span class="example-spacer"></span>
+
+        <span *ngIf="isAuthenticated">
+          <button mat-button routerLink="/friend-tab">
+            <mat-icon>summarize</mat-icon>
+            Friends
+          </button>
+
+          <button mat-button (click)="onGroupClick(lastClickedGroup)">
+            <mat-icon>view_list</mat-icon>
+            Group
+          </button>
+
+          <button mat-button routerLink="/activity-tab">
+            <mat-icon>note_add</mat-icon>
+            Activity
+          </button>
+        </span>
+
+        <span class="example-spacer"></span>
+
+        <button mat-icon-button class="home-icon login-icon" aria-label="Home icon-button with login icon" [routerLink]="['/login']" *ngIf="!isAuthenticated" title="Login">
+          <mat-icon>login</mat-icon>
+        </button>
+        <button mat-icon-button class="home-icon logout-icon" aria-label="Home icon-button with logout icon" (click)="onLogout()" *ngIf="isAuthenticated" title="Logout">
+          <mat-icon>logout</mat-icon>
+        </button>
+
+       </mat-toolbar>
+    </p>
+
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<div class="footer-container">
+    <!-- <img src="/assets/images/edson-pfm.png" alt=""> -->
+    <p class="footer-content">Travel2gather Pte Ltd</p>
+</div>

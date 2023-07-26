@@ -1,0 +1,51 @@
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.example-container mat-form-field + mat-form-field {
+  margin-left: 8px;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+.example-button-row button,
+.example-button-row a {
+  margin-left: 8px;
+}
+
+.example-disabled {
+  display: inline-block;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px; /* Add some spacing between the form and buttons */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.example-button-container button,
+.example-button-container a {
+  margin: 0 8px;
+}
